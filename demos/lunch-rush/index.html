@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Run a fast-food lunch shift in a playable management simulation.">
+    <title>Lunch Rush · Shift Simulator</title>
+    <script>try { const t=localStorage.getItem("portfolio.theme") ?? localStorage.getItem("lunch-rush-theme"); if(t==="light"||t==="dark") document.documentElement.dataset.theme=t; }catch{}</script>
+    <script type="module" crossorigin src="./assets/index-BOnT6pRL.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CJ7zlOdM.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">≋</span> Lunch Rush</div>
+      <div class="theme-picker" role="group" aria-label="Theme">
+        <button id="theme-light" type="button" aria-label="Light theme" title="Light theme"><i class="fas fa-sun" aria-hidden="true"></i></button>
+        <button id="theme-dark" type="button" aria-label="Dark theme" title="Dark theme"><i class="fas fa-moon" aria-hidden="true"></i></button>
+      </div>
+    </header>
+    <main class="layout">
+      <aside class="scenario-panel" aria-label="Shifts">
+        <div id="scenario-options" class="scenario-options" role="group" aria-label="Shift scenario"></div>
+        <p id="mode-help" hidden></p>
+        <hr class="sidebar-separator">
+        <div class="scenario-options help-options"><button id="how-to" type="button"><i class="fas fa-question-circle scenario-icon" aria-hidden="true"></i>How to play</button></div>
+      </aside>
+      <div class="stage">
+      <section class="panel floor-panel" id="floor-panel" aria-labelledby="floor-title">
+          <h2 id="floor-title" class="visually-hidden">Lunch rush</h2>
+          <span id="shift-status" class="visually-hidden" aria-live="polite">Ready to start</span>
+        <p id="scenario-brief" class="scenario-brief"></p>
+        <div class="floor">
+          <div class="shift-clock"><i class="fas fa-clock" aria-hidden="true"></i><time id="clock">12:00</time></div>
+          <div class="view-actions">
+            <button id="play" class="view-button" type="button" aria-label="Start shift" title="Start shift"><i class="fas fa-play" aria-hidden="true"></i></button>
+            <button id="restart" class="view-button" type="button" aria-label="Restart shift" title="Restart shift" hidden><i class="fas fa-redo" aria-hidden="true"></i></button>
+          </div>
+          <canvas id="store-canvas" aria-hidden="true"></canvas>
+          <div id="scene-controls" class="scene-controls">
+            <div id="crew" class="scene-buttons" aria-label="Select crew member"></div>
+            <div id="stations" class="scene-buttons" aria-label="Choose station"></div>
+          </div>
+        </div>
+        <div class="progress-track">
+          <progress id="shift-progress" aria-label="Shift progress" value="0"></progress>
+          <div id="decision-markers" aria-hidden="true"></div>
+        </div>
+        <p class="queue-alert" id="queue-alert" role="status" hidden></p>
+        <p class="visually-hidden" id="crew-help" aria-live="polite"></p>
+      </section>
+      <section id="scenario-preview" class="panel" aria-labelledby="preview-title">
+        <div id="preview-icon" class="card-icon" aria-hidden="true"></div>
+        <div><h2 id="preview-title"></h2><p id="preview-copy"></p></div>
+        <button id="preview-start" class="primary" type="button">Start</button>
+      </section>
+      <aside class="panel incident-panel" id="decision" aria-label="Shift decisions" hidden>
+        <section class="incident-inner" id="incident-content" aria-labelledby="incident-title">
+          <div id="recap" hidden><div class="card-icon" aria-hidden="true"><i class="fas fa-comment-dots"></i></div><div class="recap-description"><h2 tabindex="-1" id="recap-title">Here’s what happened</h2><p id="recap-text"></p><details><summary>More detail</summary><ul id="turn-feedback" class="turn-feedback"></ul></details></div><button id="recap-next" class="primary" type="button">Next decision →</button></div>
+          <div id="decision-card">
+          <div class="card-icon" id="decision-icon" aria-hidden="true"></div>
+          <div class="decision-description">
+          <p class="eyebrow" id="incident-label">DECISION NEEDED</p>
+          <h2 id="incident-title" tabindex="-1"></h2>
+          <p id="incident-detail"></p>
+          </div>
+          <div id="choices"></div>
+          </div>
+        </section>
+        <section class="debrief" id="debrief" aria-labelledby="debrief-title" hidden>
+          <div class="finish-screen">
+            <div class="finish-stars" id="finish-stars" role="img"></div>
+            <h2 id="debrief-title" tabindex="-1">Shift complete!</h2>
+            <p id="finish-message"></p>
+            <div id="achievements" class="achievements"></div>
+            <div class="finish-actions"><button class="primary" id="next-shift" type="button">Next shift →</button><button class="secondary" id="replay" type="button">Play again</button></div>
+          </div>
+          <details id="result-details"><summary>Detailed stats & decision review</summary>
+          <p id="verdict"></p>
+          <div id="review-block" class="review-block" hidden><h3>Decision review</h3><ol id="decision-review"></ol></div>
+          <div id="outcomes" class="outcomes"></div>
+          <div class="report-columns">
+            <div><h3>What happened</h3><p id="bottleneck"></p><ul id="timeline"></ul></div>
+            <div><h3>Crew pressure</h3><ul id="pressure"></ul></div>
+          </div>
+          </details>
+        </section>
+      </aside>
+      </div>
+    </main>
+    <dialog id="welcome" aria-labelledby="slide-title">
+      <div class="welcome-card">
+      <div id="slide-art" class="slide-art" aria-hidden="true"></div>
+      <div class="slide-description">
+      <p id="slide-step" class="eyebrow"></p>
+      <h2 id="slide-title"></h2><p id="slide-copy"></p>
+      </div>
+      <div class="slide-actions"><button id="slide-back" class="secondary" type="button">Back</button><button id="slide-next" autofocus class="primary" type="button">Next →</button></div>
+      </div>
+    </dialog>
+    <div id="object-tooltip" role="tooltip" hidden></div>
+    <section id="assignment-popup" role="dialog" aria-labelledby="assignment-title" hidden>
+      <div class="assignment-header"><h2 id="assignment-title"></h2><button id="close-assignment" type="button" aria-label="Close assignments">×</button></div>
+      <div id="assignment-options"></div>
+    </section>
+  </body>
+</html>
